@@ -1,6 +1,8 @@
 name = "workers-health-checks"
 main = "src/index.ts"
 compatibility_date = "2022-11-19"
+logpush = true
+
 
 [triggers]
 crons = [ "* * * * *" ]
