@@ -1,0 +1,22 @@
+name = "workers-health-checks"
+main = "src/index.ts"
+compatibility_date = "2022-11-19"
+
+[triggers]
+crons = [ "* * * * *" ]
+
+[[ d1_databases ]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "worker-health-checks"
+database_id = "fdfb7937-7ecb-4852-b73e-451b57e06edc"
+
+
+
+[[unsafe.bindings]]
+type = "analytics_engine"
+name = "worker_health_checks_latency"
+
+
+[[unsafe.bindings]]
+type = "analytics_engine"
+name = "worker_health_checks_errors"
