@@ -23,6 +23,7 @@ export interface HealthCheck {
 
 export default {
 	 //Just for easier testing
+	 /*
 	async fetch(
 	  controller: ScheduledController,
 	  env: Env,
@@ -31,7 +32,7 @@ export default {
 	  await this.scheduled(controller, env, ctx);
 	  return Response.json({ message: "ok" });
 	},
-  
+  */
 
 	async scheduled(
 		controller: ScheduledController,

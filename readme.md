@@ -48,6 +48,7 @@ Then you should be able to import the WorkerHealthChecks.json dashboard. This da
 
 Once you wrangler publish the project, the cron should automatically tick once per minute. Keep in mind there are sub-request limits, https://developers.cloudflare.com/workers/platform/limits/, 50/requests for bundled. This also currently is no timeout function or property, although they may be one in the future using AbortSignal.
 
+Note that when you publish a new cron, it can take ~5-10 minutes for Cloudflare to start scheduling it. Patience is a virtue!
 
 
 (Don't mind the messiness of the code, this was done in one night)
