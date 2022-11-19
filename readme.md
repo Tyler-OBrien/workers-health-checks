@@ -1,4 +1,5 @@
-Fun example of using Cloudflare's SQLite Database, D1, with Cloudflare Analytics Engine, based on Clickhouse.
+# Workers Health Checks
+A fun example of a health checking service using Cloudflare's SQLite Database, D1, with Cloudflare Analytics Engine (AE), based on Clickhouse. This uses Workers with Cron to do health checks on websites, checking for various conditions including response code, and response body, and writing to Analytics Engine for visualization in Grafana.
 
 
 ![Picture of Dashboard](pretty-latency.png "Grafana Dash")
@@ -21,8 +22,8 @@ Leave the AE Sections alone, you don't need to create anything first for that.
 wrangler d1 execute worker-health-checks --file=init.sql
 ```
 
-### Set up some health checks. Here's a few easy ones. 
-(Google ratelimits CF Workers, so we're just accepting it as valid for demo)
+### Set up some health checks. Here are a few easy ones. 
+(Google rate limits CF Workers, so we're just accepting it as valid for the demo)
 ```
 wrangler d1 execute worker-health-checks --command="Insert Into health_checks (`Name`, `Target`, `Type`) values ('facebook.com', 'https://facebook.com', 'http')"
 wrangler d1 execute worker-health-checks --command="Insert Into health_checks (`Name`, `Target`, `Type`) values ('discord.com', 'https://discord.com', 'http')"
@@ -40,7 +41,7 @@ Target = URL
 Type = Currently, only http (not used)
 Method = HTTP Method, default GET
 ExpectedCode = Accepted HTTP Codes, defaults to 200, 201, 202, 203, 204, 205, 206, 207, 208, 226, 300, 301, 302, 303, 304, 305, 306, 307, 308
-ExpectedBodyContains = Case-sensitive, worker will download entire response as text and check if it includes this.
+ExpectedBodyContains = Case-sensitive, the worker will download the entire response as text and check if it includes this.
 CustomHeaders = Custom Request Headers. 
 ```
 ### Clear All:
