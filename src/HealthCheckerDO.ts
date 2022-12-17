@@ -34,7 +34,7 @@ export class HealthCheckerDO {
   
     // Handle HTTP requests from clients.
     async fetch(request: Request) {
-      var location = new URL(request.url).pathname;
+      var location = new URL(request.url).pathname.replaceAll("/", "");
       var logLocationCheck = this.getCheckLocation(location);
       var getAllChecks: HealthCheck[] = await request.json();
       console.log("Received " + getAllChecks.length + " checks, handling them... location: " + location);
