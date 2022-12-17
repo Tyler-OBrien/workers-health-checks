@@ -22,3 +22,17 @@ name = "worker_health_checks_latency"
 [[unsafe.bindings]]
 type = "analytics_engine"
 name = "worker_health_checks_errors"
+
+[[unsafe.bindings]]
+type = "analytics_engine"
+name = "worker_health_checks_locations"
+
+
+
+[durable_objects]
+bindings = [{name = "HEALTHCHECKER", class_name = "HealthCheckerDO"}]
+
+
+[[migrations]]
+tag = "v1" # Should be unique for each entry
+new_classes = ["HealthCheckerDO"]
