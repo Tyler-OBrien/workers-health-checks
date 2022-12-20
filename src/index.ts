@@ -32,8 +32,8 @@ export default {
 
 		for (const region of regions) {
 			console.log(`Requesting ${region}...`)
-			const getId = env.HEALTHCHECKER.newUniqueId();
-			const stubby = env.HEALTHCHECKER.get(getId, { locationHint: region });
+			let id = env.HEALTHCHECKER.idFromName(region); 
+			const stubby = env.HEALTHCHECKER.get(id, { locationHint: region });
 			var task = stubby.fetch(new Request("https://literallyanything/" + region, init));
 			taskList.push(task)
 		}
