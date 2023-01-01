@@ -59,9 +59,6 @@ Once you wrangler publish the project, the cron should automatically run it once
 Note that when you publish a new cron, it can take ~5-10 minutes for Cloudflare to start scheduling it. Patience is a virtue!
 
 
-(Don't mind the messiness of the code, this was done in one night)
-
-
 ### Full Dashboard:
 
 ![Picture of Dashboard](full.png "Grafana Dash")
