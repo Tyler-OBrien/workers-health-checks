@@ -32,7 +32,7 @@ export default {
 
 		for (const region of regions) {
 			console.log(`Requesting ${region}...`)
-			let id = env.HEALTHCHECKER.idFromName(region); 
+			let id = env.HEALTHCHECKER.idFromName(crypto.randomUUID()); 
 			const stubby = env.HEALTHCHECKER.get(id, { locationHint: region });
 			var task = stubby.fetch(new Request("https://literallyanything/" + region, init));
 			taskList.push(task)
