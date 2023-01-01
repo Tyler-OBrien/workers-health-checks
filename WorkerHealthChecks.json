@@ -15,7 +15,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.2.2"
+      "version": "9.3.2"
     },
     {
       "type": "panel",
@@ -151,14 +151,220 @@
           "format": "time_series",
           "formattedQuery": "SELECT $timeSeries as t, count() FROM $table WHERE $timeFilter GROUP BY t ORDER BY t",
           "intervalFactor": 1,
-          "query": "SELECT\n    $timeSeries AS t,\n    index1 AS healthcheck,\n    SUM(_sample_interval * double1) / SUM(_sample_interval) AS average_metric\nFROM worker_health_checks_latency\nWHERE $timeFilter\nGROUP BY healthcheck, t\nORDER BY t",
-          "rawQuery": "SELECT\n    (intDiv(toUInt32(timestamp), 1) * 1) * 1000 AS t,\n    index1 AS healthcheck,\n    SUM(_sample_interval * double1) / SUM(_sample_interval) AS average_metric\nFROM worker_health_checks_latency\nWHERE timestamp >= toDateTime(1668840099) AND timestamp <= toDateTime(1668840399)\nGROUP BY healthcheck, t\nORDER BY t",
+          "query": "SELECT\n    $timeSeries AS t,\n    index1 AS healthcheck,\n    SUM(_sample_interval * double1) / SUM(_sample_interval) AS average_metric\nFROM worker_health_checks_latency\nWHERE $timeFilter and healthcheck in ($HealthCheck) and blob2 in ($Region)\nGROUP BY healthcheck, t\nORDER BY t",
+          "rawQuery": "SELECT\n    (intDiv(toUInt32(timestamp), 15) * 15) * 1000 AS t,\n    index1 AS healthcheck,\n    SUM(_sample_interval * double1) / SUM(_sample_interval) AS average_metric\nFROM worker_health_checks_latency\nWHERE timestamp >= toDateTime(1672583972) AND timestamp <= toDateTime(1672605572) and healthcheck in ('cloudflare.com') and blob2 in ('','/sam','/eeur','eeur','sam','/weur','enam','/apac','/wnam','me','/oc','/afr','oc','wnam','/enam','/me','afr','apac','weur')\nGROUP BY healthcheck, t\nORDER BY t",
           "refId": "A",
           "round": "0s",
           "skip_comments": true
         }
       ],
       "title": "Health Checks Latency",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "vertamedia-clickhouse-datasource",
+        "uid": "${DS_CLOUDFLARE_ANALYTICS ENGINE}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 7,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "vertamedia-clickhouse-datasource",
+            "uid": "${DS_CLOUDFLARE_ANALYTICS ENGINE}"
+          },
+          "dateTimeColDataType": "timestamp",
+          "dateTimeType": "DATETIME",
+          "datetimeLoading": false,
+          "extrapolate": true,
+          "format": "time_series",
+          "formattedQuery": "SELECT $timeSeries as t, count() FROM $table WHERE $timeFilter GROUP BY t ORDER BY t",
+          "intervalFactor": 1,
+          "query": "SELECT\n    $timeSeries AS t,\n    index1 AS healthcheck,\n    blob2 as location,\n    SUM(_sample_interval * double1) / SUM(_sample_interval) AS average_metric\nFROM worker_health_checks_latency\nWHERE $timeFilter and healthcheck in ($HealthCheck) and location in ($Region)\nGROUP BY healthcheck, t, location\nORDER BY t",
+          "rawQuery": "SELECT\n    (intDiv(toUInt32(timestamp), 15) * 15) * 1000 AS t,\n    index1 AS healthcheck,\n    blob2 as location,\n    SUM(_sample_interval * double1) / SUM(_sample_interval) AS average_metric\nFROM worker_health_checks_latency\nWHERE timestamp >= toDateTime(1672583992) AND timestamp <= toDateTime(1672605592) and healthcheck in ('cloudflare.com') and location in ('','/sam','/eeur','eeur','sam','/weur','enam','/apac','/wnam','me','/oc','/afr','oc','wnam','/enam','/me','afr','apac','weur')\nGROUP BY healthcheck, t, location\nORDER BY t",
+          "refId": "A",
+          "round": "0s",
+          "skip_comments": true
+        }
+      ],
+      "title": "Health Checks Latency",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "vertamedia-clickhouse-datasource",
+        "uid": "${DS_CLOUDFLARE_ANALYTICS ENGINE}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "left",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 9
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "vertamedia-clickhouse-datasource",
+            "uid": "${DS_CLOUDFLARE_ANALYTICS ENGINE}"
+          },
+          "dateTimeColDataType": "timestamp",
+          "dateTimeType": "DATETIME",
+          "datetimeLoading": false,
+          "extrapolate": true,
+          "format": "time_series",
+          "formattedQuery": "SELECT $timeSeries as t, count() FROM $table WHERE $timeFilter GROUP BY t ORDER BY t",
+          "intervalFactor": 1,
+          "query": "SELECT\n    $timeSeries AS t,\n    index1 AS location,\n    blob3 as colo,\n    1 AS average_metric\nFROM worker_health_checks_locations\nWHERE $timeFilter\nGROUP BY location, colo, t\nORDER BY location, colo",
+          "rawQuery": "SELECT\n    (intDiv(toUInt32(timestamp), 2) * 2) * 1000 AS t,\n    index1 AS location,\n    blob3 as colo,\n    1 AS average_metric\nFROM worker_health_checks_locations\nWHERE timestamp >= toDateTime(1671583193) AND timestamp <= toDateTime(1671586793)\nGROUP BY location, colo, t\nORDER BY location, colo",
+          "refId": "A",
+          "round": "0s",
+          "skip_comments": true
+        }
+      ],
+      "title": "Health Checks Locations",
       "transformations": [],
       "type": "timeseries"
     },
@@ -224,7 +430,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 0
+        "y": 9
       },
       "id": 3,
       "options": {
@@ -252,8 +458,8 @@
           "format": "time_series",
           "formattedQuery": "SELECT $timeSeries as t, count() FROM $table WHERE $timeFilter GROUP BY t ORDER BY t",
           "intervalFactor": 1,
-          "query": "SELECT\n    $timeSeries AS t,\n    index1 AS healthcheck,\n    blob1 as error,\n    SUM(_sample_interval * double1) / SUM(_sample_interval) AS average_metric\nFROM worker_health_checks_errors\nWHERE $timeFilter\nGROUP BY healthcheck, error, t\nORDER BY t",
-          "rawQuery": "SELECT\n    (intDiv(toUInt32(timestamp), 1) * 1) * 1000 AS t,\n    index1 AS healthcheck,\n    blob1 as error,\n    SUM(_sample_interval * double1) / SUM(_sample_interval) AS average_metric\nFROM worker_health_checks_errors\nWHERE timestamp >= toDateTime(1668840138) AND timestamp <= toDateTime(1668840438)\nGROUP BY healthcheck, error, t\nORDER BY t",
+          "query": "SELECT\n    $timeSeries AS t,\n    index1 AS healthcheck,\n    blob1 as error,\n    SUM(_sample_interval * double1) / SUM(_sample_interval) AS average_metric\nFROM worker_health_checks_errors\nWHERE $timeFilter and healthcheck in ($HealthCheck) and blob2 in ($Region)\nGROUP BY healthcheck, error, t\nORDER BY t",
+          "rawQuery": "SELECT\n    (intDiv(toUInt32(timestamp), 15) * 15) * 1000 AS t,\n    index1 AS healthcheck,\n    blob1 as error,\n    SUM(_sample_interval * double1) / SUM(_sample_interval) AS average_metric\nFROM worker_health_checks_errors\nWHERE timestamp >= toDateTime(1672584049) AND timestamp <= toDateTime(1672605649) and healthcheck in ('cloudflare.com') and blob2 in ('','/sam','/eeur','eeur','sam','/weur','enam','/apac','/wnam','me','/oc','/afr','oc','wnam','/enam','/me','afr','apac','weur')\nGROUP BY healthcheck, error, t\nORDER BY t",
           "refId": "A",
           "round": "0s",
           "skip_comments": true
@@ -269,16 +475,59 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {},
+        "datasource": {
+          "type": "vertamedia-clickhouse-datasource",
+          "uid": "${DS_CLOUDFLARE_ANALYTICS ENGINE}"
+        },
+        "definition": "SELECT\n    index1 AS healthcheck\nFROM worker_health_checks_latency\nGROUP BY healthcheck",
+        "description": "Health Check",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Health Check",
+        "multi": true,
+        "name": "HealthCheck",
+        "options": [],
+        "query": "SELECT\n    index1 AS healthcheck\nFROM worker_health_checks_latency\nGROUP BY healthcheck",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "vertamedia-clickhouse-datasource",
+          "uid": "${DS_CLOUDFLARE_ANALYTICS ENGINE}"
+        },
+        "definition": "SELECT\n    blob2 AS region\nFROM worker_health_checks_latency\nGROUP BY region",
+        "description": "Region",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Region",
+        "multi": true,
+        "name": "Region",
+        "options": [],
+        "query": "SELECT\n    blob2 AS region\nFROM worker_health_checks_latency\nGROUP BY region",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Worker Health Checks Example - 2",
+  "title": "Worker Health Checks",
   "uid": "tDYbgOd4n",
-  "version": 2,
+  "version": 12,
   "weekStart": ""
 }
