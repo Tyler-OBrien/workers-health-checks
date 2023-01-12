@@ -1,5 +1,5 @@
 # Workers Health Checks
-A fun example of a health checking service using Cloudflare's SQLite Database, D1, with Cloudflare Analytics Engine (AE), based on Clickhouse. This uses Workers with Cron to do health checks on websites, checking for various conditions including response code, and response body, and writing to Analytics Engine for visualization in Grafana.
+A fun example of a health checking service using Cloudflare's SQLite Database, D1, with Cloudflare Analytics Engine (AE), based on Clickhouse. This also uses Durable Objects with their new locationHints to execute the health checks in various regions. This uses Workers with Cron to do health checks on websites, checking for various conditions including response code, and response body, and writing to Analytics Engine for visualization in Grafana.
 
 
 ![Picture of Dashboard](pretty-latency.png "Grafana Dash")
@@ -7,7 +7,7 @@ A fun example of a health checking service using Cloudflare's SQLite Database, D
 
 ### Getting Started:
 
-Enable D1 & AE on your account.
+Enable D1, Analytics Engine, and Durable Objects on your account. This will required Workers Paid.
 
 ### Create Database:
 ```
